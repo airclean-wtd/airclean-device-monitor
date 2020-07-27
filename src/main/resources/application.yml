@@ -1,0 +1,21 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: airclean-device-monitor
+
+mybatis:
+  type-aliases-package: com.sailbright.airclean.vo
+
+ayt:
+  api-token: '1052dd15-ad16-d0c8-8f6c-d1915cb5a0f9'
+  api-url: 'http://api.airquality.net'
+
+httpclient:
+  maxTotal: 300
+  defaultMaxPerRoute: 50
+  connectTimeout: 1000
+  connectionRequestTimeout: 500
+  socketTimeout: 5000
+  staleConnectionCheckEnabled: true
