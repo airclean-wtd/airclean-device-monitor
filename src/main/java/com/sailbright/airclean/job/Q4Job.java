@@ -23,9 +23,6 @@ public class Q4Job implements SimpleJob {
     private DeviceMapper deviceMapper;
 
     @Autowired
-    private DeviceSmplDataMapper deviceSmplDataMapper;
-
-    @Autowired
     @Qualifier("Q4ApiDataSmplService")
     private DataSmplService apiDataSmplService;
 
@@ -38,8 +35,8 @@ public class Q4Job implements SimpleJob {
         List<Device> devicelist = deviceMapper.getValidDevicesByTpShardingNo(DEVICE_TP.Q4.getCode(), shardingContext.getShardingItem());
         for(Device device : devicelist) {
             try {
-                List<DeviceSmplData> apiDataList = apiDataSmplService.getDatas(device);
-                List<DeviceSmplData> modbusDataList = modbusDataSmplService.getDatas(device);
+                apiDataSmplService.recordDatas(device);
+                modbusDataSmplService.recordDatas(device);
             }catch(Exception e) {
                 log.error(e.getMessage(),e);
             }

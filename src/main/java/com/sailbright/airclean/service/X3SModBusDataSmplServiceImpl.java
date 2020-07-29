@@ -26,7 +26,7 @@ public class X3SModBusDataSmplServiceImpl implements DataSmplService {
     @Resource
     private DeviceMapper deviceMapper;
 
-    public List<DeviceSmplData> getDatas(Device device) throws Exception {
+    public void recordDatas(Device device) throws Exception {
         ModbusMaster master = Modbus4jUtils.getMaster(device.getIp(), device.getPort());
         BaseLocator<Number> loc = BaseLocator.holdingRegister(device.getSid(), 0, DataType.TWO_BYTE_INT_UNSIGNED);
         Number value = master.getValue(loc);
@@ -39,7 +39,6 @@ public class X3SModBusDataSmplServiceImpl implements DataSmplService {
         pm25Data.setSmplTm(new Timestamp(System.currentTimeMillis()));
         pm25Data.setVal(value.toString());
         list.add(pm25Data);
-        return list;
     }
 
 }

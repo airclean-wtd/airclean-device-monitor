@@ -12,6 +12,8 @@ public class DeviceSmplData implements Serializable {
 
     private String deviceNo;    //设备编号
 
+    private String deviceMac;    //设备MAC
+
     private String deviceTp;    //设备类型
 
     private int dataTp;         //数据类型
@@ -19,6 +21,8 @@ public class DeviceSmplData implements Serializable {
     private String val;         //采样数据
 
     private String io;          //室内&室外
+
+    private String smplMthd;    //采样方式
 
     private Timestamp smplTm;   //采样时间
 
@@ -79,4 +83,19 @@ public class DeviceSmplData implements Serializable {
         this.smplTm = smplTm;
     }
 
+    public String getSmplMthd() {
+        return smplMthd;
+    }
+
+    public void setSmplMthd(String smplMthd) {
+        this.smplMthd = smplMthd;
+    }
+
+    public String getDeviceMac() {
+        return deviceMac;
+    }
+
+    public void setDeviceMac(String deviceMac) {
+        this.deviceMac = deviceMac;
+    }
 }

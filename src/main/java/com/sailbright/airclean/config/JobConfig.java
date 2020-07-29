@@ -40,7 +40,7 @@ public class JobConfig {
         return new SpringJobScheduler(q3Job, regCenter, LiteJobConfiguration.newBuilder(simpleJobConfig).build(), jobEventConfiguration);
     }
 
-    @Bean(initMethod = "init")
+//    @Bean(initMethod = "init")
     public JobScheduler q4JobScheduler() {
         JobCoreConfiguration coreConfig = JobCoreConfiguration.newBuilder("Q4", "0/5 * * * * ?", 3).build();
         SimpleJobConfiguration simpleJobConfig = new SimpleJobConfiguration(coreConfig, Q4Job.class.getCanonicalName());

@@ -14,12 +14,11 @@ import java.util.List;
 public class Q4ApiDataSmplServiceImpl extends AytApiDataSmplAbstractService implements DataSmplService {
 
     @Override
-    public List<DeviceSmplData> getDatas(Device device) throws Exception {
+    public void recordDatas(Device device) throws Exception {
         List<DeviceSmplData> list = super.getDatas(device);
         for(DeviceSmplData item : list) {
             item.setDeviceTp(DEVICE_TP.Q4.getCode());
         }
-        return list;
     }
 
 }

@@ -6,7 +6,6 @@ import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.impl.conn.PoolingHttpClientConnectionManager;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -89,4 +88,5 @@ public class HttpClientConfig {
     public RequestConfig getRequestConfig(@Qualifier("builder") RequestConfig.Builder builder){
         return builder.build();
     }
+
 }

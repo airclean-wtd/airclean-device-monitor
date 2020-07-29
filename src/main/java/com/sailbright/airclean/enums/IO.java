@@ -2,8 +2,8 @@ package com.sailbright.airclean.enums;
 
 public enum IO {
 
-    IN("IN"),
-    OUT("OUT");
+    IN("I"),
+    OUT("O");
 
     private String code;
 

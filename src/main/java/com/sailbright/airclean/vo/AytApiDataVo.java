@@ -2,9 +2,11 @@ package com.sailbright.airclean.vo;
 
 import com.alibaba.fastjson.annotation.JSONField;
 
+import java.io.Serializable;
 import java.sql.Timestamp;
+import java.util.List;
 
-public class AytApiDataVo {
+public class AytApiDataVo implements Serializable {
 
     /**
      * 设备数据: [
@@ -22,102 +24,115 @@ public class AytApiDataVo {
      *      ]
      */
 
-    @JSONField(name="设备地址", serialize=false)
-    private String deviceMac;
+    @JSONField(name="设备数据")
+    private List<dataItem> deviceData;
 
-    @JSONField(name="上传时间", format="yyyy-MM-dd HH:mm:ss", serialize=false)
-    private Timestamp uploadTm;
+    public class dataItem {
+        @JSONField(name="设备地址")
+        private String deviceMac;
 
-    @JSONField(name="检测PM2.5", serialize=false)
-    private String pm25In;
+        @JSONField(name="上传时间", format="yyyy-MM-dd HH:mm:ss")
+        private Timestamp uploadTm;
 
-    @JSONField(name="室外PM2.5", serialize=false)
-    private String pm25Out;
+        @JSONField(name="检测PM2.5")
+        private String pm25In;
 
-    @JSONField(name="甲醛:", serialize=false)
-    private String hcho;
+        @JSONField(name="室外PM2.5")
+        private String pm25Out;
 
-    @JSONField(name="TVOC:", serialize=false)
-    private String tvoc;
+        @JSONField(name="甲醛:")
+        private String hcho;
 
-    @JSONField(name="温度", serialize=false)
-    private String temperature;
+        @JSONField(name="TVOC:")
+        private String tvoc;
 
-    @JSONField(name="CO2", serialize=false)
-    private String co2;
+        @JSONField(name="温度")
+        private String temperature;
 
-    @JSONField(name="湿度", serialize=false)
-    private String humidity;
+        @JSONField(name="CO2")
+        private String co2;
 
-    public String getDeviceMac() {
-        return deviceMac;
+        @JSONField(name="湿度")
+        private String humidity;
+
+        public String getDeviceMac() {
+            return deviceMac;
+        }
+
+        public void setDeviceMac(String deviceMac) {
+            this.deviceMac = deviceMac;
+        }
+
+        public Timestamp getUploadTm() {
+            return uploadTm;
+        }
+
+        public void setUploadTm(Timestamp uploadTm) {
+            this.uploadTm = uploadTm;
+        }
+
+        public String getPm25In() {
+            return pm25In;
+        }
+
+        public void setPm25In(String pm25In) {
+            this.pm25In = pm25In;
+        }
+
+        public String getPm25Out() {
+            return pm25Out;
+        }
+
+        public void setPm25Out(String pm25Out) {
+            this.pm25Out = pm25Out;
+        }
+
+        public String getHcho() {
+            return hcho;
+        }
+
+        public void setHcho(String hcho) {
+            this.hcho = hcho;
+        }
+
+        public String getTvoc() {
+            return tvoc;
+        }
+
+        public void setTvoc(String tvoc) {
+            this.tvoc = tvoc;
+        }
+
+        public String getTemperature() {
+            return temperature;
+        }
+
+        public void setTemperature(String temperature) {
+            this.temperature = temperature;
+        }
+
+        public String getCo2() {
+            return co2;
+        }
+
+        public void setCo2(String co2) {
+            this.co2 = co2;
+        }
+
+        public String getHumidity() {
+            return humidity;
+        }
+
+        public void setHumidity(String humidity) {
+            this.humidity = humidity;
+        }
     }
 
-    public void setDeviceMac(String deviceMac) {
-        this.deviceMac = deviceMac;
+    public List<dataItem> getDeviceData() {
+        return deviceData;
     }
 
-    public Timestamp getUploadTm() {
-        return uploadTm;
-    }
-
-    public void setUploadTm(Timestamp uploadTm) {
-        this.uploadTm = uploadTm;
-    }
-
-    public String getPm25In() {
-        return pm25In;
-    }
-
-    public void setPm25In(String pm25In) {
-        this.pm25In = pm25In;
-    }
-
-    public String getPm25Out() {
-        return pm25Out;
-    }
-
-    public void setPm25Out(String pm25Out) {
-        this.pm25Out = pm25Out;
-    }
-
-    public String getHcho() {
-        return hcho;
-    }
-
-    public void setHcho(String hcho) {
-        this.hcho = hcho;
-    }
-
-    public String getTvoc() {
-        return tvoc;
-    }
-
-    public void setTvoc(String tvoc) {
-        this.tvoc = tvoc;
-    }
-
-    public String getTemperature() {
-        return temperature;
-    }
-
-    public void setTemperature(String temperature) {
-        this.temperature = temperature;
-    }
-
-    public String getCo2() {
-        return co2;
-    }
-
-    public void setCo2(String co2) {
-        this.co2 = co2;
-    }
-
-    public String getHumidity() {
-        return humidity;
-    }
-
-    public void setHumidity(String humidity) {
-        this.humidity = humidity;
+    public void setDeviceData(List<dataItem> deviceData) {
+        this.deviceData = deviceData;
     }
 }

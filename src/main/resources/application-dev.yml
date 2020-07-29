@@ -4,11 +4,22 @@ spring:
     url: jdbc:mysql://148.70.221.161:3306/airclean?serverTimezone=UTC&useUnicode=true&characterEncoding=utf8
     username: root
     password: tingyu
+  redis:
+    database: 0
+    host: 106.14.6.77
+    port: 6379
+    password: 123456
+    lettuce:
+      pool:
+        max-active: 8
+        max-wait: -1
+        max-idle: 8
+        min-idle: 0
 
 # zk注册中心配置相关
 reg-center:
   # 连接Zookeeper服务器的列表IP:端口号,多个地址用逗号分隔
-  server-list: 106.14.6.77:2181,148.70.221.161:2181,47.100.249.45:2183
+  server-list: 106.14.6.77:2181,47.100.249.45:2183
   # Zookeeper的命名空间
   namespace: zk-elastic-job
   # 等待重试的间隔时间的初始值 默认1000，单位：毫秒
@@ -16,7 +27,7 @@ reg-center:
   # 等待重试的间隔时间的最大值 默认3000，单位：毫秒
   maxSleepTimeMilliseconds: 60000
   # 最大重试次数 默认3
-  maxRetries: 5
+  maxRetries: 10
   # 会话超时时间 默认60000，单位：毫秒
   sessionTimeoutMilliseconds: 60000
   # 连接超时时间 默认15000，单位：毫秒

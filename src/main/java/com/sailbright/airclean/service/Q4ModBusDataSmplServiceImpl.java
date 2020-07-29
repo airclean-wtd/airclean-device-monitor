@@ -12,8 +12,8 @@ import java.util.List;
 @Service("Q4ModBusDataSmplService")
 public class Q4ModBusDataSmplServiceImpl implements DataSmplService {
 
-    public List<DeviceSmplData> getDatas(Device device) throws Exception {
-        return null;
+    public void recordDatas(Device device) throws Exception {
+
     }
 
 }

@@ -7,6 +7,6 @@ import java.util.List;
 
 public interface DataSmplService {
 
-    public List<DeviceSmplData> getDatas(Device device) throws Exception;
+    public void recordDatas(Device device) throws Exception;
 
 }

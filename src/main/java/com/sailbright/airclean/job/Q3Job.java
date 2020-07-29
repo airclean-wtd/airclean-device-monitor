@@ -23,9 +23,6 @@ public class Q3Job implements SimpleJob {
     private DeviceMapper deviceMapper;
 
     @Autowired
-    private DeviceSmplDataMapper deviceSmplDataMapper;
-
-    @Autowired
     @Qualifier("Q3ApiDataSmplService")
     private DataSmplService dataSmplService;
 
@@ -34,7 +31,7 @@ public class Q3Job implements SimpleJob {
         List<Device> devicelist = deviceMapper.getValidDevicesByTpShardingNo(DEVICE_TP.Q3.getCode(), shardingContext.getShardingItem());
         for(Device device : devicelist) {
             try {
-                List<DeviceSmplData> dataList = dataSmplService.getDatas(device);
+                dataSmplService.recordDatas(device);
             }catch(Exception e) {
                 log.error(e.getMessage(),e);
             }

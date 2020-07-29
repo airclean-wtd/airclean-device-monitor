@@ -4,9 +4,14 @@ server:
 spring:
   application:
     name: airclean-device-monitor
+  jackson:
+    serialization:
+      FAIL_ON_EMPTY_BEANS: false
 
 mybatis:
-  type-aliases-package: com.sailbright.airclean.vo
+  type-aliases-package: com.sailbright.airclean.bean
+  configuration:
+    map-underscore-to-camel-case: true
 
 ayt:
   api-token: '1052dd15-ad16-d0c8-8f6c-d1915cb5a0f9'
