@@ -1,19 +1,26 @@
 package com.sailbright.airclean.service;
 
+import com.alibaba.fastjson.JSON;
 import com.sailbright.airclean.bean.Device;
 import com.sailbright.airclean.bean.DeviceSmplData;
 import com.sailbright.airclean.config.AytApiConfig;
+import com.sailbright.airclean.dao.DeviceRoomRltMapper;
+import com.sailbright.airclean.enums.DATA_CONFIG;
 import com.sailbright.airclean.enums.DATA_TP;
 import com.sailbright.airclean.enums.IO;
 import com.sailbright.airclean.enums.SMPL_MTHD;
+import com.sailbright.airclean.util.FileUtil;
 import com.sailbright.airclean.util.HttpClientUtil;
 import com.sailbright.airclean.vo.AytApiDataVo;
+import com.sailbright.airclean.vo.RoomDataVo;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.RedisTemplate;
 
 import javax.annotation.Resource;
+import java.io.File;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -25,13 +32,17 @@ import java.util.Map;
  * 爱优特设备数据采集 API
  */
 @Slf4j
-public abstract class AytApiDataSmplAbstractService {
-
-    @Resource
-    private HttpClientUtil httpClientUtil;
+public abstract class AytApiDataSmplAbstractService extends AytProduceDataAbstractService {
+    @Autowired
+    private DeviceRoomRltMapper DeviceRoomRltMapper;
 
     @Autowired
     private RedisTemplate redisTemplate;
+
+    @Value("${app.data-path}")
+    private String dataPath;
+
+    private RoomDataVo rdVo;
 
     public List<DeviceSmplData> getDatas(Device device) throws Exception {
         String url = AytApiConfig.API_URL + "/DeviceData";
@@ -39,8 +50,20 @@ public abstract class AytApiDataSmplAbstractService {
         params.put("CompanyToken",AytApiConfig.API_TOKEN);
         params.put("DeviceMac",device.getMac());
         params.put("DataType","ALL");
-        AytApiDataVo dataVo = httpClientUtil.doGet(url, AytApiDataVo.class,params, "UTF-8");
+        AytApiDataVo dataVo = HttpClientUtil.doGet(url, AytApiDataVo.class,params, "UTF-8");
+
+        String roomNo = DeviceRoomRltMapper.getRoomByDeviceMac(device.getMac());
+        RoomDataVo rdVo = new RoomDataVo();
+        this.rdVo = rdVo;
+        rdVo.setRoomNo(roomNo);
+        List<RoomDataVo.dataVo> dvList = new ArrayList<RoomDataVo.dataVo>();
+        rdVo.setDataVoList(dvList);
+
         List<DeviceSmplData> list = trans(device.getNo(), dataVo);
+
+        File dataFile = new File(dataPath,roomNo+".json");
+        FileUtil.writeJson(dataFile, rdVo);
+
         return list;
     }
 
@@ -53,13 +76,11 @@ public abstract class AytApiDataSmplAbstractService {
         Timestamp uploadTm = di.getUploadTm();
 
         Long lastSmplTm = (Long)redisTemplate.opsForValue().get(di.getDeviceMac()+"^"+ SMPL_MTHD.API.getCode());
-
         if(lastSmplTm!=null) {
             if(uploadTm.getTime()<=lastSmplTm.longValue()) {
                 return list;
             }
         }
-
         redisTemplate.opsForValue().set(di.getDeviceMac()+"^"+ SMPL_MTHD.API.getCode(), uploadTm.getTime());
 
         String co2 = di.getCo2();
@@ -109,6 +130,8 @@ public abstract class AytApiDataSmplAbstractService {
             item.setDeviceNo(deviceNo);
             item.setDeviceMac(di.getDeviceMac());
             list.add(item);
+
+            super.produceData(item, DATA_CONFIG.PM25_LEVEL, rdVo);
         }
 
         String pm25Out = di.getPm25Out();

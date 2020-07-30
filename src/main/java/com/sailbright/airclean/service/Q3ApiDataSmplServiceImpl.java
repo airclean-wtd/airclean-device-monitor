@@ -2,11 +2,15 @@ package com.sailbright.airclean.service;
 
 import com.sailbright.airclean.bean.Device;
 import com.sailbright.airclean.bean.DeviceSmplData;
+import com.sailbright.airclean.dao.DeviceRoomRltMapper;
 import com.sailbright.airclean.dao.DeviceSmplDataMapper;
 import com.sailbright.airclean.enums.DEVICE_TP;
+import com.sailbright.airclean.vo.RoomDataVo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -17,6 +21,9 @@ public class Q3ApiDataSmplServiceImpl extends AytApiDataSmplAbstractService impl
 
     @Autowired
     private DeviceSmplDataMapper deviceSmplDataMapper;
+
+    @Autowired
+    private RedisTemplate redisTemplate;
 
     @Override
     public void recordDatas(Device device) throws Exception {

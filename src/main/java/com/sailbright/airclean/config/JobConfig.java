@@ -9,6 +9,7 @@ import com.dangdang.ddframe.job.lite.spring.api.SpringJobScheduler;
 import com.dangdang.ddframe.job.reg.zookeeper.ZookeeperRegistryCenter;
 import com.sailbright.airclean.job.Q3Job;
 import com.sailbright.airclean.job.Q4Job;
+import com.sailbright.airclean.job.X3sJob;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -30,21 +31,31 @@ public class JobConfig {
     @Autowired
     private Q4Job q4Job;
 
+    @Autowired
+    private X3sJob x3sJob;
+
     @Resource
     private JobEventConfiguration jobEventConfiguration;
 
     @Bean(initMethod = "init")
     public JobScheduler q3JobScheduler() {
-        JobCoreConfiguration coreConfig = JobCoreConfiguration.newBuilder("Q3", "0/5 * * * * ?", 3).build();
+        JobCoreConfiguration coreConfig = JobCoreConfiguration.newBuilder("Q3", "0 0/5 * * * ?", 3).build();
         SimpleJobConfiguration simpleJobConfig = new SimpleJobConfiguration(coreConfig, Q3Job.class.getCanonicalName());
         return new SpringJobScheduler(q3Job, regCenter, LiteJobConfiguration.newBuilder(simpleJobConfig).build(), jobEventConfiguration);
     }
 
-//    @Bean(initMethod = "init")
+    @Bean(initMethod = "init")
     public JobScheduler q4JobScheduler() {
-        JobCoreConfiguration coreConfig = JobCoreConfiguration.newBuilder("Q4", "0/5 * * * * ?", 3).build();
+        JobCoreConfiguration coreConfig = JobCoreConfiguration.newBuilder("Q4", "0 0/5 * * * ?", 3).build();
         SimpleJobConfiguration simpleJobConfig = new SimpleJobConfiguration(coreConfig, Q4Job.class.getCanonicalName());
         return new SpringJobScheduler(q4Job, regCenter, LiteJobConfiguration.newBuilder(simpleJobConfig).build(), jobEventConfiguration);
+    }
+
+    @Bean(initMethod = "init")
+    public JobScheduler x3sJobScheduler() {
+        JobCoreConfiguration coreConfig = JobCoreConfiguration.newBuilder("X3S", "0 0/5 * * * ?", 3).build();
+        SimpleJobConfiguration simpleJobConfig = new SimpleJobConfiguration(coreConfig, X3sJob.class.getCanonicalName());
+        return new SpringJobScheduler(x3sJob, regCenter, LiteJobConfiguration.newBuilder(simpleJobConfig).build(), jobEventConfiguration);
     }
 
 }

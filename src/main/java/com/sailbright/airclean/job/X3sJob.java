@@ -15,18 +15,18 @@ import java.util.List;
 
 @Component
 @Slf4j
-public class Q3Job implements SimpleJob {
+public class X3sJob implements SimpleJob {
 
     @Autowired
     private DeviceMapper deviceMapper;
 
     @Autowired
-    @Qualifier("Q3ApiDataSmplService")
+    @Qualifier("X3SModBusDataSmplService")
     private DataSmplService dataSmplService;
 
     @Override
     public void execute(ShardingContext shardingContext) {
-        List<Device> devicelist = deviceMapper.getValidDevicesByTpShardingNo(DEVICE_TP.Q3.getCode(), shardingContext.getShardingItem());
+        List<Device> devicelist = deviceMapper.getValidDevicesByTpShardingNo(DEVICE_TP.X3S.getCode(), shardingContext.getShardingItem());
         for(Device device : devicelist) {
             try {
                 dataSmplService.recordDatas(device);

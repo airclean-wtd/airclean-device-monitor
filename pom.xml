@@ -118,6 +118,7 @@
         <!-- elastic job -->
 
         <!-- modbus -->
+        <!--
         <dependency>
             <groupId>com.infiniteautomation</groupId>
             <artifactId>modbus4j</artifactId>
@@ -135,7 +136,21 @@
             <version>1.18.12</version>
             <scope>provided</scope>
         </dependency>
+        -->
         <!-- modbus -->
+        <!--
+        <dependency>
+            <groupId>com.digitalpetri.modbus</groupId>
+            <artifactId>modbus-master-tcp</artifactId>
+            <version>1.1.0</version>
+        </dependency>
+        -->
+
+        <dependency>
+            <groupId>com.intelligt.modbus</groupId>
+            <artifactId>jlibmodbus</artifactId>
+            <version>1.2.9.7</version>
+        </dependency>
 
         <!-- httpclient -->
         <dependency>
@@ -171,13 +186,20 @@
         <dependency>
             <groupId>com.alibaba</groupId>
             <artifactId>fastjson</artifactId>
-            <version>1.2.4</version>
+            <version>1.2.73</version>
         </dependency>
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.18.12</version>
+            <scope>provided</scope>
+        </dependency>
+
 
     </dependencies>
 

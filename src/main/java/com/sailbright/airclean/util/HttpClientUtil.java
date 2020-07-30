@@ -8,29 +8,29 @@ import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.util.EntityUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.io.IOException;
 import java.util.Map;
 
-@Service
 @Slf4j
+@Component
 public class HttpClientUtil {
 
-    @Resource
-    private CloseableHttpClient httpClient;
-    @Resource
-    private RequestConfig requestConfig;
+    private static CloseableHttpClient httpClient;
+    private static RequestConfig requestConfig;
 
     /**
-     * 通过给的url地址，获取服务器数据
+     * 通过给的url地址，获取服务器数据CloseableHttpClient
      * @param url 服务器地址
      * @param params 封装用户参数
      * @param charset 设定字符编码
      * @return
      */
-    public String doGet(String url, Map<String,String> params, String charset) {
+    public static String doGet(String url, Map<String,String> params, String charset) {
         if (StringUtils.isEmpty(charset)) {
             charset = "utf-8";
         }
@@ -59,16 +59,33 @@ public class HttpClientUtil {
         return result;
     }
 
-    public String doGet(String url, Map<String,String> params) {
+    public static String doGet(String url, Map<String,String> params) {
         return doGet(url,params,null);
     }
-    public String doGet(String url) {
+    public static String doGet(String url) {
         return doGet(url,null,null);
     }
 
-    public <T> T doGet(String url,Class<T> tClass,Map<String,String> map, String charSet){
+    public static <T> T doGet(String url,Class<T> tClass,Map<String,String> map, String charSet){
         String result = doGet(url,map,charSet);
         return JSON.parseObject(result, tClass);
     }
 
+    public CloseableHttpClient getHttpClient() {
+        return httpClient;
+    }
+
+    @Autowired
+    public void setHttpClient(CloseableHttpClient httpClient) {
+        HttpClientUtil.httpClient = httpClient;
+    }
+
+    public RequestConfig getRequestConfig() {
+        return requestConfig;
+    }
+
+    @Autowired
+    public void setRequestConfig(RequestConfig requestConfig) {
+        HttpClientUtil.requestConfig = requestConfig;
+    }
 }
