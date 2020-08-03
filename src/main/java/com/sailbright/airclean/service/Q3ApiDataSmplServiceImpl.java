@@ -22,9 +22,6 @@ public class Q3ApiDataSmplServiceImpl extends AytApiDataSmplAbstractService impl
     @Autowired
     private DeviceSmplDataMapper deviceSmplDataMapper;
 
-    @Autowired
-    private RedisTemplate redisTemplate;
-
     @Override
     public void recordDatas(Device device) throws Exception {
         List<DeviceSmplData> list = super.getDatas(device);

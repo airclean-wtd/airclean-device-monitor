@@ -12,7 +12,7 @@ public interface DeviceMapper {
     @Select("select * from device where no=#{deviceNo,jdbcType=VARCHAR}")
     public Device loadDevice(String deviceNo);
 
-    @Select("select * from device where DEL=0 and TP=#{tp} and RIGHT(NO,1)=#{shardingNo}")
+    @Select("select * from device where DEL=0 and ST=1 and TP=#{tp} and RIGHT(NO,1)=#{shardingNo}")
     public List<Device> getValidDevicesByTpShardingNo(String tp, int shardingNo);
 
 }

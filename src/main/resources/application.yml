@@ -7,6 +7,8 @@ spring:
   jackson:
     serialization:
       FAIL_ON_EMPTY_BEANS: false
+#  profiles:
+#    active: dev
 
 mybatis:
   type-aliases-package: com.sailbright.airclean.bean

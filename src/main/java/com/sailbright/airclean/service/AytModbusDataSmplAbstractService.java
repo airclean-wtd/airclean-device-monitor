@@ -134,8 +134,8 @@ public abstract class AytModbusDataSmplAbstractService extends AytProduceDataAbs
 
     private DeviceSmplData getPm25OutData() throws Exception {
         ModbusParamVo vo = new ModbusParamVo(device.getIp(),device.getPort(),device.getSid(),MB_REG.PM25_OUT.getCode(),1);
-        Integer value = JLibModbusUtil.readHoldingRegisters(vo).intValue();
-        if(value==0) {
+        Integer value = JLibModbusUtil.readHoldingRegisters(vo);
+        if(value==null || value.intValue()==0) {
             return null;
         }
         DeviceSmplData item = new DeviceSmplData();
