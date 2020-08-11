@@ -37,6 +37,7 @@ public class JLibModbusUtil {
             // 创建一个主机
             ModbusMaster master = ModbusMasterFactory.createModbusMasterTCP(tcpParameters);
             Modbus.setAutoIncrementTransactionId(true);
+            master.setResponseTimeout(5000);
 
             int slaveId = vo.getSlaveId();//从机地址
             int offset = vo.getOffset();//寄存器读取开始地址

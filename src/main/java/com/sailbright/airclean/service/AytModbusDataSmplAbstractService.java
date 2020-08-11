@@ -6,9 +6,11 @@ import com.sailbright.airclean.dao.DeviceRoomRltMapper;
 import com.sailbright.airclean.enums.*;
 import com.sailbright.airclean.util.FileUtil;
 import com.sailbright.airclean.util.JLibModbusUtil;
+import com.sailbright.airclean.util.SftpUtil;
 import com.sailbright.airclean.vo.ModbusParamVo;
 import com.sailbright.airclean.vo.RoomDataVo;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -24,13 +26,16 @@ import java.util.List;
 public abstract class AytModbusDataSmplAbstractService extends AytProduceDataAbstractService {
 
     @Autowired
-    private com.sailbright.airclean.dao.DeviceRoomRltMapper DeviceRoomRltMapper;
+    private DeviceRoomRltMapper DeviceRoomRltMapper;
 
     @Autowired
     private RedisTemplate redisTemplate;
 
-    @Value("${app.data-path}")
+    @Value("${app.data.sftp.sourcePath}")
     private String dataPath;
+
+    @Value("${app.data.sftp.ip}")
+    private String dataServer;
 
     private Device device;
     private RoomDataVo rdVo;
@@ -86,8 +91,14 @@ public abstract class AytModbusDataSmplAbstractService extends AytProduceDataAbs
             log.error(e.getMessage(),e);
         }
 
-        File dataFile = new File(dataPath, roomNo+".json");
-        FileUtil.writeJson(dataFile, rdVo);
+        if(rdVo.getDataVoList().size()!=0) {
+            File dataFile = new File(dataPath, roomNo+".json");
+            FileUtil.writeJson(dataFile, rdVo);
+
+            if(StringUtils.isNotBlank(dataServer)) {
+                SftpUtil.upload(dataFile);
+            }
+        }
 
         return list;
     }

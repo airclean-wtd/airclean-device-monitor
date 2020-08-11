@@ -34,3 +34,14 @@ reg-center:
   connectionTimeoutMilliseconds: 15000
   # 连接Zookeeper的权限令牌 默认不需要
   #digest:
+
+app:
+  data:
+    sftp:
+      ip: 101.132.97.220
+      port: 22
+      username: root
+      password: Deng19900301@
+      #ftp根目录
+      sourcePath: 'D:/home/app/nfs'
+      targetPath: '/export/nfs'

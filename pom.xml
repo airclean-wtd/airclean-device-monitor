@@ -167,6 +167,14 @@
         </dependency>
         <!-- httpclient -->
 
+        <!-- sftp -->
+        <dependency>
+            <groupId>com.jcraft</groupId>
+            <artifactId>jsch</artifactId>
+            <version>0.1.54</version>
+        </dependency>
+        <!-- sftp -->
+
         <!-- commons -->
         <dependency>
             <groupId>org.apache.commons</groupId>
@@ -199,6 +207,7 @@
             <version>1.18.12</version>
             <scope>provided</scope>
         </dependency>
+
 
 
     </dependencies>

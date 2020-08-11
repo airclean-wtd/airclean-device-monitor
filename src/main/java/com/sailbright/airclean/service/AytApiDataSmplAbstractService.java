@@ -11,6 +11,7 @@ import com.sailbright.airclean.enums.IO;
 import com.sailbright.airclean.enums.SMPL_MTHD;
 import com.sailbright.airclean.util.FileUtil;
 import com.sailbright.airclean.util.HttpClientUtil;
+import com.sailbright.airclean.util.SftpUtil;
 import com.sailbright.airclean.vo.AytApiDataVo;
 import com.sailbright.airclean.vo.RoomDataVo;
 import lombok.extern.slf4j.Slf4j;
@@ -39,8 +40,11 @@ public abstract class AytApiDataSmplAbstractService extends AytProduceDataAbstra
     @Autowired
     private RedisTemplate redisTemplate;
 
-    @Value("${app.data-path}")
+    @Value("${app.data.sftp.sourcePath}")
     private String dataPath;
+
+    @Value("${app.data.sftp.ip}")
+    private String dataServer;
 
     private RoomDataVo rdVo;
 
@@ -61,8 +65,14 @@ public abstract class AytApiDataSmplAbstractService extends AytProduceDataAbstra
 
         List<DeviceSmplData> list = trans(device.getNo(), dataVo);
 
-        File dataFile = new File(dataPath,roomNo+".json");
-        FileUtil.writeJson(dataFile, rdVo);
+        if(dataVo.getDeviceData().size()!=0) {
+            File dataFile = new File(dataPath,roomNo+".json");
+            FileUtil.writeJson(dataFile, rdVo);
+
+            if(StringUtils.isNotBlank(dataServer)) {
+                SftpUtil.upload(dataFile);
+            }
+        }
 
         return list;
     }

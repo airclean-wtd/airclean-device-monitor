@@ -26,6 +26,3 @@ httpclient:
   connectionRequestTimeout: 500
   socketTimeout: 5000
   staleConnectionCheckEnabled: true
-
-app:
-  data-path: '/home/app/nfs'
